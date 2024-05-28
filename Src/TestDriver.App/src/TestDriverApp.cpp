@@ -1,26 +1,20 @@
-#include "Common_Def.h"
-#include <GLFW/glfw3.h>
-#include <gl/GL.h>
-#include <iostream>
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-	{
-		glfwSetWindowShouldClose(window, GLFW_TRUE);
-	}
-}
+#include "features.h"
 
 int main()
 {
+	SetGLVersion(3, 3);
+
 	if (!glfwInit())
 	{
-		std::cout << "Glfw init failed" << std::endl;
+		LOGX("Glfw init failed");
 	}
 
 	GLFWwindow* window = glfwCreateWindow(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT, WINDOW_TITLE, NULL, NULL);
-
+	glfwMakeContextCurrent(window);
+	gladLoadGL(glfwGetProcAddress);
+	glfwSetErrorCallback(error_callback);
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetWindowSizeCallback(window, window_size_callback);
 
 	while (!glfwWindowShouldClose(window))
 	{
