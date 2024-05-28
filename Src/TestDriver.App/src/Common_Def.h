@@ -1,0 +1,5 @@
+#pragma once
+
+#define WINDOW_DEFAULT_WIDTH 640
+#define WINDOW_DEFAULT_HEIGHT 480
+#define WINDOW_TITLE "MyApp"

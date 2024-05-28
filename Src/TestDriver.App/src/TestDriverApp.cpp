@@ -1,66 +1,35 @@
+#include "Common_Def.h"
+#include <GLFW/glfw3.h>
+#include <gl/GL.h>
 #include <iostream>
 
-int MultiplyR(int a, int b);
-
-class Entity
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-protected:
-	float X;
-	float Y;
-
-public:
-	void Move(float x, float y)
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
-		X = x;
-		Y = y;
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
-
-	virtual std::string GetName()
-	{
-		return "Entity";
-	}
-
-	virtual int GetNumber() = 0;
-};
-
-class Player : public Entity
-{
-public:
-	std::string m_Name;
-	int m_Number;
-
-	Player(const std::string& name, const int number) : 
-		m_Name(name),
-		m_Number(number) 
-	{
-	}
-
-	std::string GetName() override
-	{
-		return m_Name;
-	}
-
-	int GetNumber() override
-	{
-		return m_Number;
-	}
-};
-
+}
 
 int main()
 {
-	std::string myName("123");
-	Player* player = new Player(myName, 456);
-	Entity* e = player;
-	std::cout << e->GetName() << std::endl;
-	std::cout << e->GetNumber() << std::endl;
+	if (!glfwInit())
+	{
+		std::cout << "Glfw init failed" << std::endl;
+	}
 
-	int myItems[10];
-	int* p_myItems = myItems;
+	GLFWwindow* window = glfwCreateWindow(WINDOW_DEFAULT_WIDTH, WINDOW_DEFAULT_HEIGHT, WINDOW_TITLE, NULL, NULL);
 
-	myItems[2] = 2;
-	*(p_myItems + 2) = 2;
-	*((char*)p_myItems + 8) = 2;
+	glfwSetKeyCallback(window, key_callback);
+
+	while (!glfwWindowShouldClose(window))
+	{
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+
+	glfwDestroyWindow(window);
+	glfwTerminate();
 
 	return 0;
 }
