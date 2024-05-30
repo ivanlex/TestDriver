@@ -149,19 +149,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\callbacks.cpp" />
-    <ClCompile Include="src\gl.c" />
-    <ClCompile Include="src\TestDriverApp.cpp" />
+    <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="common\callbacks.cpp" />
+    <ClCompile Include="common\gl.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\common_def.h" />
-    <ClInclude Include="src\Entity.hpp" />
-    <ClInclude Include="src\features.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="shaders\defaultShader.glsl" >
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ClInclude Include="common\common_def.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
