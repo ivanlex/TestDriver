@@ -156,6 +156,10 @@
   <ItemGroup>
     <ClInclude Include="common\common_def.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="glsl\default_fragment.glsl" />
+    <None Include="glsl\default_vertex.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

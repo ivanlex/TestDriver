@@ -10,4 +10,7 @@
 #define WINDOW_DEFAULT_HEIGHT 480
 #define APP_TITLE "My World"
 
+#define APP_ERROR_CREATE_SHADER_FAIL -1;
+#define APP_ERROR_CREATE_SHADER_PROGRAM_FAIL -2;
+
 void setCallbacks(GLFWwindow* window);
