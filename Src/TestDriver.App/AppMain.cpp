@@ -73,6 +73,25 @@ int createShaderProgram(GLuint vertexShader, GLuint fragmentShader, GLuint* shad
 	glAttachShader(*shaderProgram, fragmentShader);
 	glLinkProgram(*shaderProgram);
 
+	GLint success;
+
+	glGetProgramiv(*shaderProgram, GL_LINK_STATUS, &success);
+
+	if (success)
+	{
+		LOG("Link Program successfully");
+	}
+	else
+	{
+		char* info = new char[512];
+		glGetProgramInfoLog(*shaderProgram, 512, NULL, info);
+		LOG(info);
+
+		delete []info;
+
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -117,9 +136,14 @@ int main()
 		return APP_ERROR_CREATE_SHADER_PROGRAM_FAIL;
 	}
 
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
 	glUseProgram(shaderProgram);
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+
+
 
 	while (!glfwWindowShouldClose(window))
 	{
