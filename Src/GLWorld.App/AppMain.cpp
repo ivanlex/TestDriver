@@ -115,9 +115,9 @@ int main()
 	setCallbacks(window);
 	glClearColor(0.2f, .7f, .1f, 1.f);
 
-	GLuint vbo;
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	GLuint vao; // vertex array object
+	glGenBuffers(1, &vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vao);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	GLuint vertexShader, fragmentShader, shaderProgram;
@@ -136,18 +136,21 @@ int main()
 		return APP_ERROR_CREATE_SHADER_PROGRAM_FAIL;
 	}
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)NULL);
 	glEnableVertexAttribArray(0);
 
 	glUseProgram(shaderProgram);
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
-
-
+	glBindVertexArray(vao);
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);		
+		glClear(GL_COLOR_BUFFER_BIT);	
+
+		
+		
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
