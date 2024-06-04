@@ -1,11 +1,10 @@
 #include "common/common_def.h"
 
 float vertices[] = {
-	// first triangle
-	0.5f, 0.5f, 0.0f, 
-	0.5f, -0.5f, 0.0f,
-	-0.5f, 0.5f, 0.0f,
-	-0.5f, 0.5f, 0.1f,
+	// first triangle   //color
+	0.5f, 0.5f, 0.0f,   1.f, 0,  0,
+	0.5f, -0.5f, 0.0f,  0,  1.f, 0,
+	-0.5f, 0.5f, 0.0f,  0,   0, 1.f
 };
 
 float params[] = {
@@ -20,13 +19,14 @@ GLuint indices[] = {
 const char* defaultVertexShaderSource =
 "#version 330 core\n"
 "layout(location = 0) in vec3 aPos;\n"
+"layout(location = 1) in vec3 colorInfo;\n"
 "\n"
 "out vec4 vertexColor;\n"
 "\n"
 "void main()\n"
 "{\n"
 "	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"	vertexColor = vec4(aPos.x + 0.5f, aPos.y + 0.3f, aPos.z + 0.3f, 0);\n"
+"	vertexColor = vec4(colorInfo, 1);\n"
 "}\n";
 
 const char* defaultFragmentShaderSource =
@@ -34,11 +34,11 @@ const char* defaultFragmentShaderSource =
 "out vec4 FragColor;\n"
 "\n"
 "in vec4 vertexColor;\n"
-"uniform vec4 vertexColorLocation;\n"
+"uniform float transparent;\n"
 "\n"
 "void main()\n"
 "{\n"
-"	FragColor = vec4(vertexColor.x * vertexColorLocation.x, vertexColor.y * vertexColorLocation.y, vertexColor.z * vertexColorLocation.z, 1);\n"
+"	FragColor = vec4(vertexColor.x * transparent, vertexColor.y * transparent, vertexColor.z * transparent, 1.0f);\n"
 "}\n";
 
 /// <summary>
@@ -159,32 +159,26 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(GL_FLOAT), (void*)NULL);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GL_FLOAT), (void*)NULL);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GL_FLOAT), (void*)(3 * sizeof(float)));
 
-	GLuint ebo;
-	glGenBuffers(1, &ebo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-	
 	glEnableVertexAttribArray(0);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glEnableVertexAttribArray(1);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glUseProgram(shaderProgram);
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
-		
-		float timeValue = glfwGetTime();
-		float redValue = atan(timeValue) / 2.0f + 0.3f;
-		float greenValue = sin(timeValue) / 2.0f + 0.5f;
-		float blueValue = cos(timeValue) / 2.0f + 0.8f;
-		int vertexColorLocation = glGetUniformLocation(shaderProgram, "vertexColorLocation");
-		glUniform4f(vertexColorLocation, redValue, greenValue, blueValue, 1.f);
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)NULL);
+		double time = glfwGetTime();
+		float value = cos(time) / 0.2f + 0.6f;
+		int location = glGetUniformLocation(shaderProgram, "transparent");
+		glUniform1f(location, value);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

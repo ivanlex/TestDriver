@@ -2,9 +2,9 @@
 out vec4 FragColor;
 
 in vec4 vertexColor;
-uniform vec4 vertexColorLocation;
+uniform float transparent;
 
 void main()
 {
-	FragColor = vec4(vertexColor.x * vertexColorLocation.x, vertexColor.y * vertexColorLocation.y, vertexColor.z * vertexColorLocation.z, 1);
+	FragColor = vec4(vertexColor.x, vertexColor.y, vertexColor.z, 0.2f * transparent);
 }

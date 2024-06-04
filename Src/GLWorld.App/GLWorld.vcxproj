@@ -152,9 +152,11 @@
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="common\callbacks.cpp" />
     <ClCompile Include="common\gl.c" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\common_def.h" />
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\default_fragment.glsl" />
