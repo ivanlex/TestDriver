@@ -18,5 +18,6 @@
 
 #define DEFAULT_VERTEX "D:/References/GLWorld/Src/GLWorld.App/glsl/default_vertex.glsl"
 #define DEFAULT_FRAGMENT "D:/References/GLWorld/Src/GLWorld.App/glsl/default_fragment.glsl"
+#define DEFAULT_TEXTURE "D:/References/GLWorld/Src/GLWorld.App/images/default_texture.png"
 
 void setCallbacks(GLFWwindow* window);

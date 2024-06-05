@@ -153,10 +153,13 @@
     <ClCompile Include="common\callbacks.cpp" />
     <ClCompile Include="common\gl.c" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\common_def.h" />
+    <ClInclude Include="common\stb_image.h" />
     <ClInclude Include="shader\Shader.h" />
+    <ClInclude Include="texture\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\default_fragment.glsl">
@@ -165,6 +168,9 @@
     <None Include="glsl\default_vertex.glsl">
       <DeploymentContent>true</DeploymentContent>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\default_texture.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
