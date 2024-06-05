@@ -156,11 +156,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\common_def.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="shader\Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glsl\default_fragment.glsl" />
-    <None Include="glsl\default_vertex.glsl" />
+    <None Include="glsl\default_fragment.glsl">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="glsl\default_vertex.glsl">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

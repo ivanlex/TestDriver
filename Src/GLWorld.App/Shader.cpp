@@ -1,4 +1,4 @@
-#include "Shader.h"
+#include "shader/Shader.h"
 
 void CreateVertexShader(const char* vertexShaderCode, GLuint* vertexShader)
 {
@@ -9,6 +9,10 @@ void CreateVertexShader(const char* vertexShaderCode, GLuint* vertexShader)
 		LOG("Create vertex shader failed");
 		return;
 	}
+
+#ifdef DEBUG
+	LOG(vertexShaderCode);
+#endif
 
 	glShaderSource(*vertexShader, 1, &vertexShaderCode, NULL);
 	glCompileShader(*vertexShader);
@@ -23,6 +27,10 @@ void CreateFragmentShader(const char* fragmentShaderCode, GLuint* fragmentShader
 		LOG("Create fragment shader failed");
 		return;
 	}
+
+#ifdef DEBUG
+	LOG(fragmentShaderCode);
+#endif
 
 	glShaderSource(*fragmentShader, 1, &fragmentShaderCode, NULL);
 	glCompileShader(*fragmentShader);
@@ -68,15 +76,15 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	CreateVertexShader(vertexShaderCode, &vertexShader);
 	CreateFragmentShader(fragmentShaderCode, &fragmentShader);
 
-	GLuint shaderProgram = glCreateProgram();
+	shaderProgramID = glCreateProgram();
 
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
+	glAttachShader(shaderProgramID, vertexShader);
+	glAttachShader(shaderProgramID, fragmentShader);
+	glLinkProgram(shaderProgramID);
 
-	GLuint success;
+	GLint success;
 
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	glGetProgramiv(shaderProgramID, GL_LINK_STATUS, &success);
 
 	if (success)
 	{
@@ -85,7 +93,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	else
 	{
 		char* info = new char[512];
-		glGetProgramInfoLog(shaderProgram, 512, NULL, info);
+		glGetProgramInfoLog(shaderProgramID, 512, NULL, info);
 		LOG(info);
 
 		delete[]info;
@@ -93,4 +101,33 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+}
+
+void Shader::use()
+{
+	glUseProgram(shaderProgramID);
+}
+
+void Shader::setBool(const std::string& name, bool value) const
+{
+	GLuint location = glGetUniformLocation(shaderProgramID, name.c_str());
+	glUniform1i(location, value);
+}
+
+void Shader::setInt(const std::string& name, int value) const
+{
+	GLuint location = glGetUniformLocation(shaderProgramID, name.c_str());
+	glUniform1i(location, value);
+}
+
+void Shader::setFloat(const std::string& name, int value) const
+{
+	GLuint location = glGetUniformLocation(shaderProgramID, name.c_str());
+	glUniform1f(location, value);
+}
+
+void Shader::setFloat3(const std::string& name, float x, float y, float z) const
+{
+	GLuint location = glGetUniformLocation(shaderProgramID, name.c_str());
+	glUniform3f(location, x, y, z);
 }
