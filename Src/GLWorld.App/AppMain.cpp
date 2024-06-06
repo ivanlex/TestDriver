@@ -50,6 +50,7 @@ int main()
 
 	Shader defaultShader(DEFAULT_VERTEX, DEFAULT_FRAGMENT);
 	Texture defaultTexture(DEFAULT_TEXTURE);
+	Texture secondTexture(SECOND_TEXTURE);
 
 	GLuint vbo, vao, ebo;
 
@@ -86,7 +87,12 @@ int main()
 	defaultShader.use();
 	
 	glBindVertexArray(vao);
-	glBindTexture(GL_TEXTURE_2D, defaultTexture.textureID);
+	
+	defaultTexture.use(GL_TEXTURE0);
+	secondTexture.use(GL_TEXTURE1);
+
+	defaultShader.setInt("userTex", 0);
+	defaultShader.setInt("userTex2", 1);
 
 	while (!glfwWindowShouldClose(window))
 	{
