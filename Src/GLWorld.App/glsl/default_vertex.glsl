@@ -9,7 +9,7 @@ out vec2 texCoord;
 void main()
 {
 	mat4x4 scaleMat;
-	float rotation = 1.26f;
+	float rotation = 3.14f;
 
 	scaleMat[0].xyzw = vec4(1,0,0,0);
 	scaleMat[1].xyzw = vec4(0,cos(rotation),-sin(rotation),0);
