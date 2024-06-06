@@ -1,0 +1,44 @@
+Identity ===>
+
+Mat4x4 identity;
+
+identity[0] = vec4(1,0,0,0);
+identity[1] = vec4(0,1,0,0);
+identity[2] = vec4(0,0,1,0);
+identity[3] = vec4(0,0,0,1);
+
+Scale===>
+
+Mat4x4 identity;
+
+identity[0] = vec4(scale,0,0,0);
+identity[1] = vec4(0,scale,0,0);
+identity[2] = vec4(0,0,scale,0);
+identity[3] = vec4(0,0,0,1);
+
+RotationX===>
+
+Mat4x4 identity;
+
+identity[0] = vec4(1,0,0,0);
+identity[1] = vec4(0,cos(rotationx),-sin(rotationx),0);
+identity[2] = vec4(0,sin(rotationx),cos(rotationx),0);
+identity[3] = vec4(0,0,0,1);
+
+RotationY===>
+
+Mat4x4 identity;
+
+identity[0] = vec4(cos(rotationy),0,sin(rotationy),0);
+identity[1] = vec4(0,1,0,0);
+identity[2] = vec4(-sin(rotationy),0,cos(rotationy),0);
+identity[3] = vec4(0,0,0,1);
+
+RotationZ===>
+
+Mat4x4 identity;
+
+identity[0] = vec4(cos(rotationz),-sin(rotationz),0,0);
+identity[1] = vec4(sin(rotationz),cos(rotationz),0,0);
+identity[2] = vec4(0,0,1,0);
+identity[3] = vec4(0,0,0,1);

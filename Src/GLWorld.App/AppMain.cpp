@@ -10,14 +10,6 @@ float vertices[] = {
 	-0.5f, 0.5f, 0.0f,	1.0f, 1.0f, 0.0f,	0.0f, 1.0f // top left
 };
 
-float vertices2[] = {
-	// first triangle   //color
-	0.5f, 0.1f, 0.0f,   1.f, 0,  0,
-	0.5f, -0.5f, 0.0f,  0,  1.f, 0,
-	-0.5f, 0.5f, 0.0f,  0,   0, 1.f,
-	-0.5f, 0.5f, 0.0f,  0,   0, 1.f
-};
-
 float params[] = {
 	1.2f, 2.3f
 };
@@ -99,17 +91,17 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		float time = glfwGetTime();
-		float valueX = sin(time) / 0.2f + 0.5f;
-		float valueY = sin(time) / 0.2f + 0.5f;
+		float valueX = sin(time) / 0.2f + 0.2f;
+		float valueY = sin(time) / 0.2f + 0.3f;
 		float valueZ = sin(time) / 0.2f + 0.5f;
 
-		if (valueX < -0.5f)
+		if (valueX < -0.8f)
 		{
 			valueX = -0.5f;
 			valueY = -0.5f;
 			valueZ = -0.5f;
 		}
-		else if (valueX > 0.5)
+		else if (valueX > 0.8)
 		{
 			valueX = 0.5f;
 			valueY = 0.5f;

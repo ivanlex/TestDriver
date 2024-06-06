@@ -9,6 +9,8 @@ uniform sampler2D userTex2;
 
 void main()
 {
+
+
 	vec4 tempColor = vec4(vertexColor.x + userColor.x, vertexColor.y + userColor.y, vertexColor.z + userColor.z, 1.f);
-	FragColor = mix(texture(userTex, texCoord), texture(userTex2, texCoord), vertexColor.z) * tempColor;
+	FragColor = mix(texture(userTex, texCoord), texture(userTex2, texCoord), userColor.z) * tempColor;
 }
