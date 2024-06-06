@@ -23,8 +23,8 @@ float params[] = {
 };
 
 GLuint indices[] = {
-		0, 1, 3, // first triangle
-		1, 2, 3  // second triangle
+	0, 1, 3, // first triangle
+	1, 2, 3,  // second triangle
 };
 
 int main()
@@ -75,12 +75,12 @@ int main()
 			GL_FLOAT,
 			GL_FALSE,
 			8 * sizeof(GL_FLOAT),
-			(void*)(i * (i !=0 ? stride[i-1] : 1) * sizeof(float))
+			(void*)(i * (i  > 0 ? stride[i-1] : 0) * sizeof(float))
 		);
 		glEnableVertexAttribArray(i);
 	}
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	
 	defaultShader.use();
@@ -91,6 +91,13 @@ int main()
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		float time = glfwGetTime();
+		float valueX = sin(time) / 0.2f + 0.1f;
+		float valueY = sin(time) / 0.2f + 0.2f;
+		float valueZ = sin(time) / 0.2f + 0.3f;
+		
+		defaultShader.setFloat3("userColor", valueX, valueY, valueZ);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);

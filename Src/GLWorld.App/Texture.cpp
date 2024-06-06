@@ -4,7 +4,8 @@
 
 Texture::Texture(const char* textureFile)
 {
-	unsigned char* data = stbi_load(textureFile, &width, &height, &nrChannels, 0);
+	stbi_set_flip_vertically_on_load(GL_TRUE);
+	unsigned char* data = stbi_load(textureFile, &width, &height, &nrChannels, 4);
 
 	if (data != NULL)
 	{
@@ -12,13 +13,25 @@ Texture::Texture(const char* textureFile)
 
 		glGenTextures(1, &textureID);
 		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		switch (nrChannels)
+		{
+		case 1 :
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+		case 3:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		case 4:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		default:
+			break;
+		}
+
+		
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
@@ -27,5 +40,5 @@ Texture::Texture(const char* textureFile)
 		return;
 	}
 
-	STBI_FREE(data);
+	stbi_image_free(data);
 }
