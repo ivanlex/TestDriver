@@ -93,9 +93,22 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		float time = glfwGetTime();
-		float valueX = sin(time) / 0.2f + 0.1f;
-		float valueY = sin(time) / 0.2f + 0.2f;
-		float valueZ = sin(time) / 0.2f + 0.3f;
+		float valueX = sin(time) / 0.2f + 0.5f;
+		float valueY = sin(time) / 0.2f + 0.5f;
+		float valueZ = sin(time) / 0.2f + 0.5f;
+
+		if (valueX < -0.5f)
+		{
+			valueX = -0.5f;
+			valueY = -0.5f;
+			valueZ = -0.5f;
+		}
+		else if (valueX > 0.5)
+		{
+			valueX = 0.5f;
+			valueY = 0.5f;
+			valueZ = 0.5f;
+		}
 		
 		defaultShader.setFloat3("userColor", valueX, valueY, valueZ);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
