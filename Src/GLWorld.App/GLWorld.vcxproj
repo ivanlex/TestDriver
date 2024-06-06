@@ -131,6 +131,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy $(ProjectDir)images $(TargetDir)images  /E /I /Y /D
+xcopy $(ProjectDir)glsl $(TargetDir)glsl  /E /I /Y /D</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
