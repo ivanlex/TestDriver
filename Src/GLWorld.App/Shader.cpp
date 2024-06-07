@@ -131,3 +131,9 @@ void Shader::setFloat3(const std::string& name, float x, float y, float z) const
 	GLuint location = glGetUniformLocation(shaderProgramID, name.c_str());
 	glUniform3f(location, x, y, z);
 }
+
+void Shader::setFloatPtr(const std::string& name, float* data) const
+{
+	GLuint location = glGetUniformLocation(shaderProgramID, name.c_str());
+	glUniformMatrix4fv(location, 1, GL_FALSE, data);
+}

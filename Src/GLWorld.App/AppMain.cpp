@@ -34,6 +34,10 @@ int main()
 		NULL
 	);
 
+	
+
+
+
 	glfwMakeContextCurrent(window);
 	gladLoadGL(glfwGetProcAddress);
 	glfwSwapInterval(1);
@@ -107,8 +111,15 @@ int main()
 			valueY = 0.5f;
 			valueZ = 0.5f;
 		}
+
+		glm::mat4 trans(1.f);
+		float delta = glfwGetTime() * .2f;
+
+		trans = glm::rotate(trans, delta, glm::vec3(0, 0, 1.f));
+		//trans = glm::scale(trans, glm::vec3(delta, delta, 1.f));
 		
 		defaultShader.setFloat3("userColor", valueX, valueY, valueZ);
+		defaultShader.setFloatPtr("transform", glm::value_ptr(trans));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
