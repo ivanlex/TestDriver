@@ -112,13 +112,21 @@ int main()
 			valueZ = 0.5f;
 		}
 
+		glm::mat4 projection(1.f);
+		glm::mat4 view(1.f);
 		glm::mat4 trans(1.f);
 		float delta = glfwGetTime() * .2f;
 
+		projection = glm::perspective(glm::radians(45.f), (float)WINDOW_DEFAULT_WIDTH / (float)WINDOW_DEFAULT_HEIGHT, 0.1f, 100.f);
+
+		view = glm::translate(view, glm::vec3(0.f, 0.f, -abs(delta)));
+
 		trans = glm::rotate(trans, delta, glm::vec3(0, 0, 1.f));
-		//trans = glm::scale(trans, glm::vec3(delta, delta, 1.f));
+		trans = glm::translate(trans, glm::vec3(0.5f, 0.f, 0.f));
 		
 		defaultShader.setFloat3("userColor", valueX, valueY, valueZ);
+		defaultShader.setFloatPtr("projection", glm::value_ptr(projection));
+		defaultShader.setFloatPtr("view", glm::value_ptr(view));
 		defaultShader.setFloatPtr("transform", glm::value_ptr(trans));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
