@@ -55,6 +55,57 @@ GLuint indices[] = {
 	1, 2, 3,  // second triangle
 };
 
+float cameraPosX = 0.f;
+float cameraPosY = 0.f;
+float cameraPosZ = 0.f;
+
+bool* did = new bool(0);
+float angle = 0.f;
+
+void processInput(GLFWwindow* window)
+{
+	*did = 0;
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		cameraPosZ -= 0.1f;
+
+		(*did)++;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		angle += 0.1f;
+		(*did)++;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		cameraPosZ += 0.1f;
+		(*did)++;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		angle -= 0.1f;
+		(*did)++;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	{
+		system("cls");
+		cameraPosX = 0.f;
+		cameraPosY = 0.f;
+		cameraPosZ = 0.f;
+		angle = 0.f;
+	}
+
+	if (*did)
+	{
+		LOG("CameraPosX:" << cameraPosX << ",CameraPosY:" << cameraPosY << ",CameraZ:" << cameraPosZ);
+	}
+}
+
 int main()
 {
 	if (!glfwInit())
@@ -122,6 +173,8 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
+		processInput(window);
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		float time = glfwGetTime();
@@ -143,18 +196,30 @@ int main()
 		}
 
 		glm::mat4 projection(1.f);
-		glm::mat4 view(1.f);
 		glm::mat4 trans(1.f);
-		float delta = glfwGetTime() * .2f;
+		float delta = sin(glfwGetTime()) * 2.f;
 
-		projection = glm::perspective(glm::radians(45.f), (float)WINDOW_DEFAULT_WIDTH / (float)WINDOW_DEFAULT_HEIGHT, 0.1f, 100.f);
+		projection = glm::perspective(glm::radians(75.f), (float)WINDOW_DEFAULT_WIDTH / (float)WINDOW_DEFAULT_HEIGHT, 0.1f, 100.f);
 
-		view = glm::translate(view, glm::vec3(0.f, 0.f, -abs(delta)));
+		glm::mat4 view(1.f);
 
-		trans = glm::rotate(trans, delta, glm::vec3(1.f, 1.f, 1.f));
-		trans = glm::translate(trans, glm::vec3(0.5f, 0.f, 0.f));
+		if (abs(delta) > 1)
+		{
+			delta = 0.8 * (delta / abs(delta));
+		}
+
+
+		// view = glm::translate(view, glm::vec3(0,0, -abs(delta)));
+
+		view = glm::lookAt(
+			glm::vec3(cameraPosX, cameraPosY, cameraPosZ),
+			glm::vec3(0.f, 0.f, 0),
+			glm::vec3(0, 1.f, 0)
+		);
+
+		view = glm::rotate(view, angle, glm::vec3(0, 1.f, 0));
 		
-		defaultShader.setFloat3("userColor", 1.f, 1.f, 1.f);
+		defaultShader.setFloat3("userColor", 1.f, 1.f, delta);
 		defaultShader.setFloatPtr("projection", glm::value_ptr(projection));
 		defaultShader.setFloatPtr("view", glm::value_ptr(view));
 		defaultShader.setFloatPtr("transform", glm::value_ptr(trans));
