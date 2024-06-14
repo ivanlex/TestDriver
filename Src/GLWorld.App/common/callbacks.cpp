@@ -8,6 +8,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 }
 
+void mouse_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	{
+		double xPos= 0.0, yPos = 0.0;
+
+		glfwGetCursorPos(window, &xPos, &yPos);
+
+		LOG("Current mouse pos, xPos:" << xPos << ", yPos:" << yPos);
+	}
+}
+
 void windowSizeChanged_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -16,6 +28,7 @@ void windowSizeChanged_callback(GLFWwindow* window, int width, int height)
 
 void setCallbacks(GLFWwindow* window)
 {
+	glfwSetMouseButtonCallback(window, mouse_callback);
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetWindowSizeCallback(window, windowSizeChanged_callback);
 }
