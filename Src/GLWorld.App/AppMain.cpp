@@ -55,12 +55,12 @@ GLuint indices[] = {
 	1, 2, 3,  // second triangle
 };
 
-float cameraPosX = 0.f;
-float cameraPosY = 0.f;
-float cameraPosZ = 0.f;
+glm::vec3 cameraTarget(0.f, 0.f, 0.f);
+glm::vec3 cameraPos(0.f, 0.f, 0.f);
+glm::vec3 cameraUp(0.f, 1.f, 0.f);
+float angle = 0.f;
 
 bool* did = new bool(0);
-float angle = 0.f;
 
 void processInput(GLFWwindow* window)
 {
@@ -68,41 +68,74 @@ void processInput(GLFWwindow* window)
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		cameraPosZ -= 0.1f;
-
+		float magnitude = glm::length(cameraPos);
+		if (magnitude != 0)
+		{
+			cameraPos *= (magnitude - 0.1f) / magnitude;
+		}
+		else
+		{
+			cameraPos.z += 0.1f;
+		}
 		(*did)++;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		angle += 0.1f;
+		float length = glm::length(cameraPos);
+		glm::vec3 cameraDirection = glm::normalize(cameraPos);
+
+		angle += 10.f;
+		cameraDirection.x -= glm::sin(glm::radians(angle));
+		cameraDirection.z += glm::cos(glm::radians(angle));
+
+		cameraPos = cameraPos - (cameraDirection * length);
+
 		(*did)++;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		cameraPosZ += 0.1f;
+		float magnitude = glm::length(cameraPos);
+		if (magnitude != 0)
+		{
+			cameraPos *= (magnitude + 0.1f) / magnitude;
+		}
+		else
+		{
+			cameraPos.z -= 0.1f;
+		}
+		
+
 		(*did)++;
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)	
 	{
-		angle -= 0.1f;
+		float length = glm::length(cameraPos);
+
+		glm::vec3 cameraDirection = glm::normalize(cameraPos);
+
+		angle += 10.f;
+		cameraDirection.x += glm::sin(glm::radians(angle));
+		cameraDirection.z += glm::cos(glm::radians(angle));
+
+		cameraPos = cameraPos - (cameraDirection * length);
+
 		(*did)++;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
 		system("cls");
-		cameraPosX = 0.f;
-		cameraPosY = 0.f;
-		cameraPosZ = 0.f;
-		angle = 0.f;
+		cameraPos.x = 0.f;
+		cameraPos.y = 0.f;
+		cameraPos.z = 0.f;
 	}
 
 	if (*did)
 	{
-		LOG("CameraPosX:" << cameraPosX << ",CameraPosY:" << cameraPosY << ",CameraZ:" << cameraPosZ);
+		LOG("CameraPosX:" << cameraPos.x << ",CameraPosY:" << cameraPos.y << ",CameraZ:" << cameraPos.z);
 	}
 }
 
@@ -212,12 +245,10 @@ int main()
 		// view = glm::translate(view, glm::vec3(0,0, -abs(delta)));
 
 		view = glm::lookAt(
-			glm::vec3(cameraPosX, cameraPosY, cameraPosZ),
-			glm::vec3(0.f, 0.f, 0),
-			glm::vec3(0, 1.f, 0)
+			cameraPos,
+			cameraTarget,
+			cameraUp
 		);
-
-		view = glm::rotate(view, angle, glm::vec3(0, 1.f, 0));
 		
 		defaultShader.setFloat3("userColor", 1.f, 1.f, delta);
 		defaultShader.setFloatPtr("projection", glm::value_ptr(projection));
