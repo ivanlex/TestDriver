@@ -24,4 +24,11 @@
 #define DEFAULT_TEXTURE "./images/default_texture.jpeg"
 #define SECOND_TEXTURE "./images/second_texture.jpg"
 
+#define SCROLL_STRIDE 5.f
+#define SCROLL_MAXIMUM 180
+#define SCROLL_MINIMUM 0
+#define MOVE_STRIDE 0.1f
+#define ROTATE_STRIDE 10.f
+
 void setCallbacks(GLFWwindow* window);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);

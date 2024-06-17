@@ -59,8 +59,30 @@ glm::vec3 cameraTarget(0.f, 0.f, 0.f);
 glm::vec3 cameraPos(0.f, 0.f, 0.f);
 glm::vec3 cameraUp(0.f, 1.f, 0.f);
 float angle = 0.f;
+float fov = 45.f;
 
 bool* did = new bool(0);
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) 
+{
+	if (yoffset > 0)
+	{
+		fov += SCROLL_STRIDE;
+	}
+	else
+	{
+		fov -= SCROLL_STRIDE;
+	}
+
+	if (fov + SCROLL_STRIDE > SCROLL_MAXIMUM)
+	{
+		fov = SCROLL_MAXIMUM;
+	}
+	else if (fov - SCROLL_STRIDE < SCROLL_MINIMUM)
+	{
+		fov = SCROLL_MINIMUM;
+	}
+}
 
 void processInput(GLFWwindow* window)
 {
@@ -71,11 +93,11 @@ void processInput(GLFWwindow* window)
 		float magnitude = glm::length(cameraPos);
 		if (magnitude != 0)
 		{
-			cameraPos *= (magnitude - 0.1f) / magnitude;
+			cameraPos *= (magnitude - MOVE_STRIDE) / magnitude;
 		}
 		else
 		{
-			cameraPos.z += 0.1f;
+			cameraPos.z += MOVE_STRIDE;
 		}
 		(*did)++;
 	}
@@ -85,7 +107,7 @@ void processInput(GLFWwindow* window)
 		float length = glm::length(cameraPos);
 		glm::vec3 cameraDirection = glm::normalize(cameraPos);
 
-		angle += 10.f;
+		angle += ROTATE_STRIDE;
 		cameraDirection.x -= glm::sin(glm::radians(angle));
 		cameraDirection.z += glm::cos(glm::radians(angle));
 
@@ -99,11 +121,11 @@ void processInput(GLFWwindow* window)
 		float magnitude = glm::length(cameraPos);
 		if (magnitude != 0)
 		{
-			cameraPos *= (magnitude + 0.1f) / magnitude;
+			cameraPos *= (magnitude + MOVE_STRIDE) / magnitude;
 		}
 		else
 		{
-			cameraPos.z -= 0.1f;
+			cameraPos.z -= MOVE_STRIDE;
 		}
 		
 
@@ -116,7 +138,7 @@ void processInput(GLFWwindow* window)
 
 		glm::vec3 cameraDirection = glm::normalize(cameraPos);
 
-		angle += 10.f;
+		angle += ROTATE_STRIDE;
 		cameraDirection.x += glm::sin(glm::radians(angle));
 		cameraDirection.z += glm::cos(glm::radians(angle));
 
@@ -232,7 +254,7 @@ int main()
 		glm::mat4 trans(1.f);
 		float delta = sin(glfwGetTime()) * 2.f;
 
-		projection = glm::perspective(glm::radians(75.f), (float)WINDOW_DEFAULT_WIDTH / (float)WINDOW_DEFAULT_HEIGHT, 0.1f, 100.f);
+		projection = glm::perspective(glm::radians(fov), (float)WINDOW_DEFAULT_WIDTH / (float)WINDOW_DEFAULT_HEIGHT, 0.1f, 100.f);
 
 		glm::mat4 view(1.f);
 
@@ -259,6 +281,9 @@ int main()
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+	glfwDestroyWindow(window);
+	glfwTerminate();
 
 	return 0;
 }

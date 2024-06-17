@@ -29,6 +29,7 @@ void windowSizeChanged_callback(GLFWwindow* window, int width, int height)
 void setCallbacks(GLFWwindow* window)
 {
 	glfwSetMouseButtonCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetWindowSizeCallback(window, windowSizeChanged_callback);
 }
