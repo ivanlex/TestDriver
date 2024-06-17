@@ -25,8 +25,8 @@
 #define SECOND_TEXTURE "./images/second_texture.jpg"
 
 #define SCROLL_STRIDE 5.f
-#define SCROLL_MAXIMUM 180
-#define SCROLL_MINIMUM 0
+#define FIELD_OF_VIEW_MINIMUM 5
+#define FIELD_OF_VIEW_MAXIMUM 120
 #define MOVE_STRIDE 0.1f
 #define ROTATE_STRIDE 10.f
 

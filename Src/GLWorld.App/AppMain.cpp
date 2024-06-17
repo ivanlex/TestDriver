@@ -59,7 +59,7 @@ glm::vec3 cameraTarget(0.f, 0.f, 0.f);
 glm::vec3 cameraPos(0.f, 0.f, 0.f);
 glm::vec3 cameraUp(0.f, 1.f, 0.f);
 float angle = 0.f;
-float fov = 45.f;
+float fov = FIELD_OF_VIEW_MINIMUM;
 
 bool* did = new bool(0);
 
@@ -74,13 +74,13 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 		fov -= SCROLL_STRIDE;
 	}
 
-	if (fov + SCROLL_STRIDE > SCROLL_MAXIMUM)
+	if (fov + SCROLL_STRIDE > FIELD_OF_VIEW_MAXIMUM)
 	{
-		fov = SCROLL_MAXIMUM;
+		fov = FIELD_OF_VIEW_MAXIMUM;
 	}
-	else if (fov - SCROLL_STRIDE < SCROLL_MINIMUM)
+	else if (fov - SCROLL_STRIDE < FIELD_OF_VIEW_MINIMUM)
 	{
-		fov = SCROLL_MINIMUM;
+		fov = FIELD_OF_VIEW_MINIMUM;
 	}
 }
 
