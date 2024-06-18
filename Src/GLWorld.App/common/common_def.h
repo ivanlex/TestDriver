@@ -37,6 +37,7 @@
 #define DEFAULT_FRAGMENT "./glsl/default_fragment.glsl"
 #define DEFAULT_TEXTURE "./images/default_texture.jpeg"
 #define SECOND_TEXTURE "./images/second_texture.jpg"
+#define DEFAULT_3DMODEL "./3dModels/test.obj"
 
 #define SCROLL_STRIDE 5.f
 #define FIELD_OF_VIEW_MINIMUM 5

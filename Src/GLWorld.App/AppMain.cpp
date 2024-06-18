@@ -1,6 +1,7 @@
 #include "common/common_def.h"
 #include "shader/Shader.h"
 #include "texture/Texture.h"
+#include "asset/Asset.h"
 
 float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -44,6 +45,50 @@ float vertices[] = {
 		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
+
+float vertices2[] = {
+		-0.25f, -0.25f, -0.25f,
+		 0.25f, -0.25f, -0.25f,
+		 0.25f,  0.25f, -0.25f,
+		 0.25f,  0.25f, -0.25f,
+		-0.25f,  0.25f, -0.25f,
+		-0.25f, -0.25f, -0.25f,
+
+		-0.25f, -0.25f,  0.25f,
+		 0.25f, -0.25f,  0.25f,
+		 0.25f,  0.25f,  0.25f,
+		 0.25f,  0.25f,  0.25f,
+		-0.25f,  0.25f,  0.25f,
+		-0.25f, -0.25f,  0.25f,
+
+		-0.25f,  0.25f,  0.25f,
+		-0.25f,  0.25f, -0.25f,
+		-0.25f, -0.25f, -0.25f,
+		-0.25f, -0.25f, -0.25f,
+		-0.25f, -0.25f,  0.25f,
+		-0.25f,  0.25f,  0.25f,
+
+		 0.25f,  0.25f,  0.25f,
+		 0.25f,  0.25f, -0.25f,
+		 0.25f, -0.25f, -0.25f,
+		 0.25f, -0.25f, -0.25f,
+		 0.25f, -0.25f,  0.25f,
+		 0.25f,  0.25f,  0.25f,
+
+		-0.25f, -0.25f, -0.25f,
+		 0.25f, -0.25f, -0.25f,
+		 0.25f, -0.25f,  0.25f,
+		 0.25f, -0.25f,  0.25f,
+		-0.25f, -0.25f,  0.25f,
+		-0.25f, -0.25f, -0.25f,
+
+		-0.25f,  0.25f, -0.25f,
+		 0.25f,  0.25f, -0.25f,
+		 0.25f,  0.25f,  0.25f,
+		 0.25f,  0.25f,  0.25f,
+		-0.25f,  0.25f,  0.25f,
+		-0.25f,  0.25f, -0.25f,
 };
 
 glm::vec3 cameraTarget(0.f, 0.f, 0.f);
@@ -177,6 +222,9 @@ void processInput(GLFWwindow* window)
 
 int main()
 {
+	Asset* asset = new Asset(DEFAULT_3DMODEL);
+	LOG((asset->getScene()->HasMeshes() ? "Asset loaded" : "Asset failed"));
+
 	if (!glfwInit())
 	{
 		LOG("Glfw init failed");
@@ -189,7 +237,6 @@ int main()
 		NULL,
 		NULL
 	);
-
 
 	glfwMakeContextCurrent(window);
 	gladLoadGL(glfwGetProcAddress);

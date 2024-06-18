@@ -134,7 +134,8 @@
     <PostBuildEvent>
       <Command>xcopy $(ProjectDir)images $(TargetDir)images  /E /I /Y /D
 xcopy $(ProjectDir)glsl $(TargetDir)glsl  /E /I /Y /D
-xcopy $(ProjectDir)3dModels $(TargetDir)3dModels  /E /I /Y /D</Command>
+xcopy $(ProjectDir)3dModels $(TargetDir)3dModels  /E /I /Y /D
+xcopy $(SolutionDir)\Dependencies\assimp\lib\x64\dlls\* $(TargetDir)  /E /I /Y /D</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,19 +156,23 @@ xcopy $(ProjectDir)3dModels $(TargetDir)3dModels  /E /I /Y /D</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="Asset.cpp" />
     <ClCompile Include="common\callbacks.cpp" />
     <ClCompile Include="common\gl.c" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="asset\Asset.h" />
     <ClInclude Include="common\common_def.h" />
     <ClInclude Include="common\stb_image.h" />
     <ClInclude Include="shader\Shader.h" />
     <ClInclude Include="texture\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="3dModels\test.mtl" />
+    <None Include="3dModels\test.mtl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+    </None>
     <None Include="glsl\default_fragment.glsl">
       <DeploymentContent>true</DeploymentContent>
     </None>
@@ -180,7 +185,10 @@ xcopy $(ProjectDir)3dModels $(TargetDir)3dModels  /E /I /Y /D</Command>
     <Image Include="images\second_texture.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Object Include="3dModels\test.obj" />
+    <None Include="3dModels\test.obj">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

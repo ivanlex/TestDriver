@@ -30,6 +30,9 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\common_def.h">
@@ -44,11 +47,15 @@
     <ClInclude Include="texture\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="asset\Asset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\default_vertex.glsl" />
     <None Include="glsl\default_fragment.glsl" />
     <None Include="3dModels\test.mtl" />
+    <None Include="3dModels\test.obj" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\default_texture.jpeg">
@@ -57,8 +64,5 @@
     <Image Include="images\second_texture.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="3dModels\test.obj" />
   </ItemGroup>
 </Project>
