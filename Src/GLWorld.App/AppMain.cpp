@@ -46,18 +46,13 @@ float vertices[] = {
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
-float params[] = {
-	1.2f, 2.3f
-};
-
-GLuint indices[] = {
-	0, 1, 3, // first triangle
-	1, 2, 3,  // second triangle
-};
-
 glm::vec3 cameraTarget(0.f, 0.f, 0.f);
 glm::vec3 cameraPos(0.f, 0.f, 0.f);
 glm::vec3 cameraUp(0.f, 1.f, 0.f);
+
+glm::vec3 lightColor(0.33f, 0.42f, 0.18f);
+glm::vec3 myColor(1.f, 0.5f, 0.31f);
+
 float angle = 0.f;
 float fov = FIELD_OF_VIEW_MINIMUM;
 
@@ -84,10 +79,8 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	}
 }
 
-void processInput(GLFWwindow* window)
+void processMovement(GLFWwindow* window)
 {
-	*did = 0;
-
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		float magnitude = glm::length(cameraPos);
@@ -127,12 +120,12 @@ void processInput(GLFWwindow* window)
 		{
 			cameraPos.z -= MOVE_STRIDE;
 		}
-		
+
 
 		(*did)++;
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)	
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		float length = glm::length(cameraPos);
 
@@ -154,6 +147,27 @@ void processInput(GLFWwindow* window)
 		cameraPos.y = 0.f;
 		cameraPos.z = 0.f;
 	}
+}
+
+void processColorChange(GLFWwindow* window, glm::vec3* objectColor, glm::vec3* lightColor)
+{
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+	{
+		lightColor->x += 0.01f;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		lightColor->x -= 0.01f;
+	}
+}
+
+void processInput(GLFWwindow* window)
+{
+	*did = 0;
+
+	processMovement(window);
+	processColorChange(window, &myColor, &lightColor);
 
 	if (*did)
 	{
@@ -226,6 +240,9 @@ int main()
 	defaultShader.setInt("userTex", 0);
 	defaultShader.setInt("userTex2", 1);
 
+	
+
+
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -271,8 +288,10 @@ int main()
 			cameraTarget,
 			cameraUp
 		);
+
 		
-		defaultShader.setFloat3("userColor", 1.f, 1.f, delta);
+		defaultShader.setFloat3Ptr("userColor", glm::value_ptr(myColor));
+		defaultShader.setFloat3Ptr("lightColor", glm::value_ptr(lightColor));
 		defaultShader.setFloatPtr("projection", glm::value_ptr(projection));
 		defaultShader.setFloatPtr("view", glm::value_ptr(view));
 		defaultShader.setFloatPtr("transform", glm::value_ptr(trans));

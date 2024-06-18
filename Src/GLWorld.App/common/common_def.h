@@ -1,10 +1,24 @@
 #pragma once
 #define GLFW_INCLUDE_NONE
+
+#pragma region gl
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
+#pragma endregion
+
+#pragma region glm
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#pragma endregion
+
+#pragma region assimp
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#pragma endregion
+
+
 
 #include <iostream>
 #include <filesystem>
