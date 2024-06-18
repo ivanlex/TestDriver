@@ -97,6 +97,7 @@ glm::vec3 cameraPos(0.f, 0.f, 0.f);
 glm::vec3 cameraUp(0.f, 1.f, 0.f);
 
 glm::vec3 lightColor(0.33f, 0.42f, 0.18f);
+glm::vec3 lightColor2(1.f, 1.f, 1.f);
 glm::vec3 myColor(1.f, 0.5f, 0.31f);
 
 float angle = 0.f;
@@ -257,7 +258,8 @@ int main()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
 	
-	
+	model1->use(&defaultTexture, &defaultShader);
+	model2->use(&defaultTexture, &defaultShader);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -307,10 +309,9 @@ int main()
 		defaultShader.setFloatPtr("projection", glm::value_ptr(projection));
 		defaultShader.setFloatPtr("view", glm::value_ptr(view));
 		defaultShader.setFloatPtr("transform", glm::value_ptr(trans));
-		model1->use(&defaultTexture, &defaultShader);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		model2->use(&defaultTexture, &defaultShader);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		model1->draw();
+		defaultShader.setFloat3Ptr("lightColor", glm::value_ptr(lightColor2));
+		model2->draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

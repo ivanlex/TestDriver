@@ -1,5 +1,5 @@
-#include "model/Model.h"
-#include "texture/Texture.h"
+#include "Model.h"
+#include "../texture/Texture.h"
 
 #define WITH_TEXTURE_POS 5
 #define VERTEX_ONLY_POS 3
@@ -18,6 +18,7 @@ Model::Model(std::string name, const float* buffer, int bufferLength)
 	if (bufferLength % WITH_TEXTURE_POS == 0)
 	{
 		int stride[] = { 3, 2 };
+		m_triangleCount = bufferLength / WITH_TEXTURE_POS;
 
 		for (int i = 0; i < 2; i++)
 		{
@@ -34,6 +35,8 @@ Model::Model(std::string name, const float* buffer, int bufferLength)
 	}
 	else if (bufferLength % VERTEX_ONLY_POS == 0)
 	{
+		m_triangleCount = bufferLength / VERTEX_ONLY_POS;
+
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
 		glEnableVertexAttribArray(0);
 	}
@@ -43,6 +46,24 @@ Model::Model(std::string name, const float* buffer, int bufferLength)
 	}
 }
 
+void Model::draw()
+{
+	if (!m_texture)
+	{
+		LOG("Texture should be applied before draw, " << m_name.c_str());
+		return;
+	}
+
+	if (!m_shader)
+	{
+		LOG("Shader should be applied before draw, " << m_name.c_str());
+		return;
+	}
+
+	use(m_texture, m_shader);
+	glDrawArrays(GL_TRIANGLES, 0, m_triangleCount);
+}
+
 void Model::use(Texture* texture, Shader* shader)
 {
 	glBindVertexArray(m_vao);
@@ -50,6 +71,14 @@ void Model::use(Texture* texture, Shader* shader)
 	shader->use();
 	texture->use(GL_TEXTURE0);
 	shader->setInt("userTex", 0);
+
+	m_texture = texture;
+	m_shader = shader;
+}
+
+int Model::getTriangleCount() const
+{
+	return m_triangleCount;
 }
 
 Model::~Model()

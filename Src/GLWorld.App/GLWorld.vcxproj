@@ -156,15 +156,17 @@ xcopy $(SolutionDir)\Dependencies\assimp\lib\x64\dlls\* $(TargetDir)  /E /I /Y /
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
-    <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="asset\Asset.cpp" />
+    <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="common\callbacks.cpp" />
     <ClCompile Include="common\gl.c" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="model\Model.cpp" />
+    <ClCompile Include="shader\Shader.cpp" />
+    <ClCompile Include="texture\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="asset\Asset.h" />
+    <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="common\common_def.h" />
     <ClInclude Include="common\stb_image.h" />
     <ClInclude Include="model\Model.h" />

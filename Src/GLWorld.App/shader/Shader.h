@@ -1,5 +1,5 @@
 #pragma once
-#include "common/common_def.h"
+#include "../common/common_def.h"
 
 #include <fstream>
 #include <sstream>

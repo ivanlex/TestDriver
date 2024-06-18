@@ -1,4 +1,4 @@
-#include "shader/Shader.h"
+#include "../shader/Shader.h"
 
 void CreateVertexShader(const char* vertexShaderCode, GLuint* vertexShader)
 {

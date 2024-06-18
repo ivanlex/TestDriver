@@ -1,4 +1,4 @@
-#include "asset/Asset.h"
+#include "Asset.h"
 
 Asset::Asset(const char* filename)
 {

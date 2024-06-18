@@ -1,6 +1,6 @@
-#include "texture/Texture.h"
+#include "Texture.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "common/stb_image.h"
+#include "../common/stb_image.h"
 
 Texture::Texture(const char* textureFile)
 {
