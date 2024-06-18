@@ -48,6 +48,7 @@
   <ItemGroup>
     <None Include="glsl\default_vertex.glsl" />
     <None Include="glsl\default_fragment.glsl" />
+    <None Include="3dModels\test.mtl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\default_texture.jpeg">
@@ -56,5 +57,8 @@
     <Image Include="images\second_texture.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="3dModels\test.obj" />
   </ItemGroup>
 </Project>

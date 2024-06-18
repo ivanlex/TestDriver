@@ -133,7 +133,8 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy $(ProjectDir)images $(TargetDir)images  /E /I /Y /D
-xcopy $(ProjectDir)glsl $(TargetDir)glsl  /E /I /Y /D</Command>
+xcopy $(ProjectDir)glsl $(TargetDir)glsl  /E /I /Y /D
+xcopy $(ProjectDir)3dModels $(TargetDir)3dModels  /E /I /Y /D</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -166,6 +167,7 @@ xcopy $(ProjectDir)glsl $(TargetDir)glsl  /E /I /Y /D</Command>
     <ClInclude Include="texture\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="3dModels\test.mtl" />
     <None Include="glsl\default_fragment.glsl">
       <DeploymentContent>true</DeploymentContent>
     </None>
@@ -176,6 +178,9 @@ xcopy $(ProjectDir)glsl $(TargetDir)glsl  /E /I /Y /D</Command>
   <ItemGroup>
     <Image Include="images\default_texture.jpeg" />
     <Image Include="images\second_texture.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="3dModels\test.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
