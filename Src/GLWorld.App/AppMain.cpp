@@ -2,6 +2,7 @@
 #include "shader/Shader.h"
 #include "texture/Texture.h"
 #include "asset/Asset.h"
+#include "model/Model.h"
 
 float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -222,9 +223,6 @@ void processInput(GLFWwindow* window)
 
 int main()
 {
-	Asset* asset = new Asset(DEFAULT_3DMODEL);
-	LOG((asset->getScene()->HasMeshes() ? "Asset loaded" : "Asset failed"));
-
 	if (!glfwInit())
 	{
 		LOG("Glfw init failed");
@@ -247,48 +245,22 @@ int main()
 	Shader defaultShader(DEFAULT_VERTEX, DEFAULT_FRAGMENT);
 	Texture defaultTexture(DEFAULT_TEXTURE);
 	Texture secondTexture(SECOND_TEXTURE);
-
-	GLuint vbo, vao, ebo;
-
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ebo);
-
-	glBindVertexArray(vao);
+	Model model1("item1", vertices, array_size(vertices));
+	Model model2("item2", vertices2, array_size(vertices2));
 	
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	int stride[] = {3,2};
-
-	for (int i = 0; i < 2; i++)
-	{
-		glVertexAttribPointer(
-			i, 
-			stride[i],
-			GL_FLOAT,
-			GL_FALSE,
-			5 * sizeof(GL_FLOAT),
-			(void*)(i * (i  > 0 ? stride[i-1] : 0) * sizeof(float))
-		);
-		glEnableVertexAttribArray(i);
-	}
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
 	
 	defaultShader.use();
 	
-	glBindVertexArray(vao);
+	model1.use();
 	
 	defaultTexture.use(GL_TEXTURE0);
 	secondTexture.use(GL_TEXTURE1);
 
 	defaultShader.setInt("userTex", 0);
 	defaultShader.setInt("userTex2", 1);
-
-	
-
 
 	while (!glfwWindowShouldClose(window))
 	{

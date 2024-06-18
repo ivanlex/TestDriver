@@ -25,6 +25,7 @@
 
 //#define DEBUG
 #define LOG(x) std::cout << x << std::endl;
+#define array_size(x) sizeof(x) / sizeof(*(x))
 
 #define WINDOW_DEFAULT_WIDTH 640
 #define WINDOW_DEFAULT_HEIGHT 480

@@ -159,6 +159,7 @@ xcopy $(SolutionDir)\Dependencies\assimp\lib\x64\dlls\* $(TargetDir)  /E /I /Y /
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="common\callbacks.cpp" />
     <ClCompile Include="common\gl.c" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
@@ -166,6 +167,7 @@ xcopy $(SolutionDir)\Dependencies\assimp\lib\x64\dlls\* $(TargetDir)  /E /I /Y /
     <ClInclude Include="asset\Asset.h" />
     <ClInclude Include="common\common_def.h" />
     <ClInclude Include="common\stb_image.h" />
+    <ClInclude Include="model\Model.h" />
     <ClInclude Include="shader\Shader.h" />
     <ClInclude Include="texture\Texture.h" />
   </ItemGroup>
