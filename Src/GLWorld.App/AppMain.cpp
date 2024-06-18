@@ -223,6 +223,11 @@ void processInput(GLFWwindow* window)
 
 int main()
 {
+	for (int i = 0; i < array_size(vertices2); i++)
+	{
+		vertices2[i] += 1.f;
+	}
+
 	if (!glfwInit())
 	{
 		LOG("Glfw init failed");
@@ -245,22 +250,14 @@ int main()
 	Shader defaultShader(DEFAULT_VERTEX, DEFAULT_FRAGMENT);
 	Texture defaultTexture(DEFAULT_TEXTURE);
 	Texture secondTexture(SECOND_TEXTURE);
-	Model model1("item1", vertices, array_size(vertices));
-	Model model2("item2", vertices2, array_size(vertices2));
+	Model* model1 = new Model("item1", vertices, array_size(vertices));
+	Model* model2 = new Model("item2", vertices2, array_size(vertices2));
 	
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
 	
-	defaultShader.use();
 	
-	model1.use();
-	
-	defaultTexture.use(GL_TEXTURE0);
-	secondTexture.use(GL_TEXTURE1);
-
-	defaultShader.setInt("userTex", 0);
-	defaultShader.setInt("userTex2", 1);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -299,21 +296,20 @@ int main()
 			delta = 0.8 * (delta / abs(delta));
 		}
 
-
-		// view = glm::translate(view, glm::vec3(0,0, -abs(delta)));
-
 		view = glm::lookAt(
 			cameraPos,
 			cameraTarget,
 			cameraUp
 		);
-
 		
 		defaultShader.setFloat3Ptr("userColor", glm::value_ptr(myColor));
 		defaultShader.setFloat3Ptr("lightColor", glm::value_ptr(lightColor));
 		defaultShader.setFloatPtr("projection", glm::value_ptr(projection));
 		defaultShader.setFloatPtr("view", glm::value_ptr(view));
 		defaultShader.setFloatPtr("transform", glm::value_ptr(trans));
+		model1->use(&defaultTexture, &defaultShader);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		model2->use(&defaultTexture, &defaultShader);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		glfwSwapBuffers(window);

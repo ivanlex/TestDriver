@@ -1,4 +1,5 @@
 #include "model/Model.h"
+#include "texture/Texture.h"
 
 #define WITH_TEXTURE_POS 5
 #define VERTEX_ONLY_POS 3
@@ -42,9 +43,13 @@ Model::Model(std::string name, const float* buffer, int bufferLength)
 	}
 }
 
-void Model::use()
+void Model::use(Texture* texture, Shader* shader)
 {
 	glBindVertexArray(m_vao);
+
+	shader->use();
+	texture->use(GL_TEXTURE0);
+	shader->setInt("userTex", 0);
 }
 
 Model::~Model()

@@ -51,3 +51,8 @@ void Texture::use(GLenum textureNo)
 		glBindTexture(GL_TEXTURE_2D, textureID);
 	}
 }
+
+Texture::~Texture()
+{
+	glDeleteTextures(1, &textureID);
+}

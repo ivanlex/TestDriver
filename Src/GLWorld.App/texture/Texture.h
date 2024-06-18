@@ -14,4 +14,5 @@ public:
 	/// </summary>
 	/// <param name="textureNo">from GL_TEXTURE0 up to GLTEXTURE15</param>
 	void use(GLenum textureNo);
+	~Texture();
 };
